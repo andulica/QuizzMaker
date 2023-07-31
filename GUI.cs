@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
-namespace QuizMakerProgram
+﻿namespace QuizMakerProgram
 {
     public class GUI
     {
-        public static string TakeUserQuestion ()
+        public static string TakeUserQuestion()
         {
             string question = "";
             while (string.IsNullOrEmpty(question))
             {
                 question = Console.ReadLine();
-                Console.WriteLine($"question is: ' {question} '");            
+                Console.WriteLine($"question is: ' {question} '");
             }
             return question;
         }
 
-        public static List<string> TakeUserAnswers ()
+        public static List<string> TakeUserAnswers()
         {
-            List<string> answers = new List<string> ();
+            List<string> answers = new List<string>();
             string answer;
             while (answers.Count < 5)
             {
@@ -32,7 +25,7 @@ namespace QuizMakerProgram
                 if (string.IsNullOrEmpty(answer))
                 {
                     Console.WriteLine("Please enter a valid value.");
-                } 
+                }
                 else
                 {
                     answers.Add(answer);
@@ -41,9 +34,9 @@ namespace QuizMakerProgram
             return answers;
         }
 
-        public static void DisplayAnswers (List <string> answersList)
+        public static void DisplayAnswers(List<string> answersList)
         {
-            for(int i =0; i < answersList.Count; i++)
+            for (int i = 0; i < answersList.Count; i++)
             {
                 Console.WriteLine($"Answer {i}. {answersList[i]}");
             }
@@ -52,16 +45,18 @@ namespace QuizMakerProgram
         public static void WelcomeMessage()
         {
             Console.Title = ("Quiz Game");
+
             // Change the text color to green.
             Console.ForegroundColor = ConsoleColor.Green;
 
             // Change the background color to black.
             Console.BackgroundColor = ConsoleColor.Black;
+
             Console.WriteLine("                  Welcome to the Ultimate QuizGame");
             // Reset the console colors to their defaults after you're done.
             Console.ResetColor();
         }
-        public static void DisplayGameRules ()
+        public static void DisplayGameRules()
         {
             Console.WriteLine("Welcome the our game. The rules for this game are as follows: " +
                 "\n From the Main Menu you have the possibility to create new games with as many questions as you want" +
@@ -89,7 +84,7 @@ namespace QuizMakerProgram
 
         }
 
-        public static void Divider ()
+        public static void Divider()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.BackgroundColor = ConsoleColor.Black;
@@ -101,26 +96,22 @@ namespace QuizMakerProgram
             Console.ResetColor();
         }
 
-        public static string GetNameForFile ()
+        public static string GetNameForFile()
         {
             var path = "";
             string nameForGame = "";
+
             while (string.IsNullOrEmpty(nameForGame))
             {
                 Console.WriteLine("Please enter a name for your file: ");
                 nameForGame = Console.ReadLine();
+
                 if (path.Equals($@"C:\temp\{nameForGame}.xml"))
                 {
                     Console.WriteLine("This name is already in use. please enter a new name");
                 }
-              
             }
             return nameForGame;
         }
-        
-
-     
-
-      
     }
 }

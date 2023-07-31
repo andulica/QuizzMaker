@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace QuizMakerProgram
 {
@@ -14,7 +8,7 @@ namespace QuizMakerProgram
         public static int EvaluatePlayerAnswer(List<String> answersList, String answer)
         {
             int winnings = 0;
-           for (int i = 1; i <= answersList.Count; i++)
+            for (int i = 1; i <= answersList.Count; i++)
             {
                 if (answersList[i].Equals(answer))
                 {
@@ -29,11 +23,10 @@ namespace QuizMakerProgram
             return winnings;
         }
 
-        //this method returns a list of string that has no star in it. THis will need to be printed to the user
-        public static string [] RemoveAsterisksFromAnswers (string[] answersWithStar)
+        public static string[] RemoveAsterisksFromAnswers(string[] answersWithStar)
         {
             char star = '*';
-            string[] answersWithoutStar = new string[5]; 
+            string[] answersWithoutStar = new string[5];
             for (int i = 0; i < answersWithStar.Length; i++)
             {
                 if (answersWithStar[i].Contains('*'))
@@ -50,8 +43,7 @@ namespace QuizMakerProgram
             return answersWithoutStar;
         }
 
-        // this method porints the querstion and the answers tot that qustion but wihtout showin ther right answer
-        public static void DisplayQuestionsAndAnswers(List <Question> questions)
+        public static void DisplayQuestionsAndAnswers(List<Question> questions)
         {
             string[] answersWithoutStar = new string[5];
 
@@ -67,7 +59,7 @@ namespace QuizMakerProgram
             }
         }
 
-  
+
         public static List<Question> GenerateQuestionsForGame()
         {
             List<Question> questions = new List<Question>();
@@ -76,19 +68,15 @@ namespace QuizMakerProgram
             while (exit.Equals('Y'))
             {
                 Question question = new Question();
-                string questionString;
                 string[] answers = new string[5];
-                string answer;
+
                 Console.WriteLine("Enter the question");
-                questionString = Console.ReadLine();
-                question.QuestionString = questionString;
+                question.QuestionString = Console.ReadLine();
+
                 Console.WriteLine("Enter the answers for this question");
-                
-               
                 for (int i = 0; i < answers.Length; i++)
                 {
-                    answer = Console.ReadLine();
-                    answers[i] = answer;
+                    answers[i] = Console.ReadLine();
                 }
                 question.Answers = answers;
 
@@ -98,17 +86,13 @@ namespace QuizMakerProgram
             }
             return questions;
         }
-        
+
 
         public static void Serialization(string fileName, List<Question> questionList)
         {
-
-
-             XmlSerializer serializer = new XmlSerializer(typeof(List<Question>));
-
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Question>));
 
             var path = $@"C:\temp\{fileName}.xml";
-
 
             using (FileStream file = File.Create(path))
             {
@@ -120,8 +104,7 @@ namespace QuizMakerProgram
         // 3. Randomly choose a question object from the list
 
 
-
-        public static List<Question> Deserialize (string fileName)
+        public static List<Question> Deserialize(string fileName)
         {
             List<Question> questions;
 
@@ -132,13 +115,9 @@ namespace QuizMakerProgram
 
             using (FileStream file = File.OpenRead(path))
             {
-               Console.WriteLine("Deserialize succesful");
-               return questions = serializer.Deserialize(file) as List<Question>;              
+                Console.WriteLine("Deserialize succesful");
+                return questions = serializer.Deserialize(file) as List<Question>;
             }
-
-           
-
         }
-
     }
 }
