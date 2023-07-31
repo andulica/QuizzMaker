@@ -6,39 +6,23 @@ using System.Threading.Tasks;
 
 namespace QuizMakerProgram
 {
-    internal class Question
+    public class Question
     {
-        private String questionString;
-        private int[] answers;
+      
+            public string QuestionString { get; set; }
+            public string[] Answers { get; set; }
+
+            public Question()
+            {
+            }
+
+            public Question(string question, string[] answers)
+            {
+                QuestionString = question;
+                Answers = answers;
+            }
+        
 
 
-        public Question(String question, int[] answers)
-        {
-            this.questionString = question;
-            this.answers = answers;
-        }
-
-
-        public String GetQuestionString()
-        {
-            return this.questionString;
-        }
-
-        public int[] GetAnswers()
-        {
-            return this.answers;
-        }
-
-
-        public void SetQuestion(String question)
-        {
-            this.questionString = question;
-
-        }
-
-        public void SetAnswers(int[] answers)
-        {
-            this.answers = answers;
-        }
     }
 }
