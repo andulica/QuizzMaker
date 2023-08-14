@@ -1,5 +1,4 @@
 ﻿using QuizMakerProgram;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ConsoleApp1
 {
@@ -7,18 +6,79 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-
-            GUI.DisplayMenu();
             GUI.WelcomeMessage();
-            GUI.Divider();
+            GameModes userChosenOption;
+            do
+            {
+                GUI.DisplayMenu();
+                userChosenOption = (GameModes)GUI.TakeUserInput((int)GameModes.Play, (int)GameModes.Exit);
+                switch (userChosenOption)
+                {
+                    case GameModes.Play:
+                        QuizEditor.SelectQuizToPlay();
+                        break;
+                    case GameModes.Create:
+                        QuizEditor.CreateQuiz();
+                        break;
+                    case GameModes.Delete:
+                        QuizEditor.DeleteQuiz();
+                        break;
+                    case GameModes.Edit:
+                        QuizEditor.EditQuiz();
+                        break;
+                    case GameModes.Rules:
+                        GUI.DisplayGameRules();
+                        break;
+                    case GameModes.Exit:
+                        GUI.DisplayExitMessage();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            while (userChosenOption != GameModes.Exit);
+        }
 
-            List<Question> questions = QuizLogic.GenerateQuestionsForGame();
+        /// <summary>
+        /// Plays the quiz game using a list of questions.
+        /// This method continuously selects random questions from the list and presents them to the user for answering.
+        /// A correct answer increments the user's score.
+        /// After all questions are answered, the user has the option to repeat the quiz or exit back to the main menu.
+        /// </summary>
+        /// <param name="questionsToPlay">The list of questions to be played in the quiz game.</param>
+        /// <returns>Returns the total score achieved by the user.</returns>
+        internal static int PlayQuestionsFromFile(List<Question> questionsToPlay)
+        {
+            int score = 0;
+            bool repeat = true;
 
-            QuizLogic.Serialization(GUI.GetNameForFile(), questions);
-            questions = QuizLogic.Deserialize(GUI.GetNameForFile());
+            // Continue playing as long as the user wants to repeat
+            while (repeat)
+            {
+                List<Question> shuffledListOfQuestions = QuizLogic.ShuffleQuestions(questionsToPlay);
+                for (int i = 0; i < questionsToPlay.Count; i++)
+                {
 
-            QuizLogic.DisplayQuestionsAndAnswers(questions);
+                    GUI.DisplayQuestionItsAnswers(shuffledListOfQuestions[i]);
 
+                    // Take the player's selected answer (1-based index)
+                    int answer = GUI.TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
+
+                    // Evaluate the player's answer and increment the score if correct
+                    if (QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, answer))
+                    {
+                        score++;
+                    }
+                }
+
+                // Ask the user if they want to repeat the quiz
+                repeat = GUI.RepeatQuestions();
+            }
+
+            Console.WriteLine("No more questions. Going back to Main menu.");
+            Main(null);
+
+            return score;
         }
     }
 }
