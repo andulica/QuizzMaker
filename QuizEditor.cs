@@ -26,7 +26,7 @@ namespace QuizMakerProgram
         public static void CreateQuiz()
         {
             // Generate questions for the game using QuizLogic and serialize them to an XML file using Quiz.Serialization
-            Quiz.Serialization(GUI.GenerateQuestionsForGame());
+            Quiz.Serialization(GUI.TakeQuestionsForQuiz());
         }
 
         /// <summary>

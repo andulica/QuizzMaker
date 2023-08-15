@@ -152,7 +152,7 @@
         /// The user can choose to continue adding more questions or stop and return the created list of questions.
         /// </summary>
         /// <returns>Returns a list of questions for the game.</returns>
-        public static List<Question> GenerateQuestionsForGame()
+        public static List<Question> TakeQuestionsForQuiz()
         {
             List<Question> questions = new List<Question>();
             string continueAdding;
@@ -260,7 +260,7 @@
                 Console.WriteLine("No files found in the directory. Please create a new file and add questions.");
 
                 // Serialize a new quiz file with the user-defined name and generated questions
-                Quiz.Serialization(GenerateQuestionsForGame());
+                Quiz.Serialization(TakeQuestionsForQuiz());
             }
 
             Console.WriteLine("Files available:");
