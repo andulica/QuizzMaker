@@ -10,7 +10,7 @@ namespace QuizMakerProgram
         /// </summary>
         /// <param name="fileName">The name of the file where the questions will be saved, without the extension.</param>
         /// <param name="questionList">The list of questions to be serialized into the file.</param>
-        public static void Serialization(List<Question> questionList)
+        public static void Serialize(List<Question> questionList)
         {
             // Take name for file from the user
             string fileName = GUI.TakeNameForFileFromUser();

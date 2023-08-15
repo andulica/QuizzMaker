@@ -260,7 +260,7 @@
                 Console.WriteLine("No files found in the directory. Please create a new file and add questions.");
 
                 // Serialize a new quiz file with the user-defined name and generated questions
-                Quiz.Serialization(TakeQuestionsForQuiz());
+                Quiz.Serialize(TakeQuestionsForQuiz());
             }
 
             Console.WriteLine("Files available:");
