@@ -50,12 +50,19 @@ namespace QuizMakerProgram
             Quiz.ReplaceListOfQuestions(result.FilePath, questionsEdited);
         }
 
+        /// <summary>
+        /// Handles the deletion process of a quiz. This includes displaying all XML files, allowing the user to select a file,
+        /// and then invoking the GUI's DeleteQuiz method to actually delete the file.
+        /// </summary>
         public static void DeleteQuiz()
         {
+            // Display all XML files in the specified base path
             GUI.DisplayAllXmlFiles(Constants.BASE_PATH);
 
+            // Allow the user to select an XML file and get its path from the specified base path
             var result = GUI.SelectXmlFileAndFilePath(Constants.BASE_PATH);
 
+            // Pass the selected file and path to the GUI's DeleteQuiz method to handle the deletion
             GUI.DeleteQuiz(result);
         }
     }

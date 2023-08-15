@@ -1,6 +1,4 @@
-﻿using ConsoleApp1;
-
-namespace QuizMakerProgram
+﻿namespace QuizMakerProgram
 {
     public class GUI
     {
@@ -152,7 +150,7 @@ namespace QuizMakerProgram
         /// Displays a list of answers to the console, numbering each answer.
         /// </summary>
         /// <param name="answersList">A list of answers to be displayed.</param>
-        public static void DisplayAnswers(string [] answersList)
+        private static void DisplayAnswers(string [] answersList)
         {
             for (int i = 0; i < answersList.Length; i++)
             {
@@ -242,7 +240,7 @@ namespace QuizMakerProgram
         /// </summary>
         /// <param name="answersWithAsterisks">An array of answers where correct answers are marked with an asterisk (*).</param>
         /// <returns>Returns a new array with the same answers but without asterisks.</returns>
-        public static string[] RemoveAsterisksFromAnswers(string[] answersWithAsterisks)
+        private static string[] RemoveAsterisksFromAnswers(string[] answersWithAsterisks)
         {
             // Create a new array to hold the answers without asterisks
             string[] answersWithoutAsterisks = new string[answersWithAsterisks.Length];
@@ -394,7 +392,7 @@ namespace QuizMakerProgram
         /// </summary>
         /// <param name="questionsList">The list of questions from which the user can choose.</param>
         /// <returns>The selected question.</returns>
-        public static Question SelectQuestionFromList(List<Question> questionsList)
+        private static Question SelectQuestionFromList(List<Question> questionsList)
         {
             Console.WriteLine($"Please choose a question: ");
 
@@ -429,7 +427,7 @@ namespace QuizMakerProgram
         /// </summary>
         /// <param name="questionToEdit">The question object that the user can edit.</param>
         /// <returns>The edited question object.</returns>
-        public static Question EditQuestion(Question questionToEdit)
+        private static Question EditQuestion(Question questionToEdit)
         {
             Console.WriteLine("Choose one of the following options: \n1. Edit question's sentence. \n2. Edit question's answers.");
             int userInput = TakeUserInput(2);
@@ -453,7 +451,7 @@ namespace QuizMakerProgram
                 }
 
                 // Ask the user if they want to continue editing or exit
-                exit = GetYesNo();
+                exit = GetYesNo(Constants.EXIT_MESSAGE);
             }
             while (!exit);
 
@@ -466,7 +464,7 @@ namespace QuizMakerProgram
         /// </summary>
         /// <param name="question">The question object whose sentence the user will edit.</param>
         /// <returns>The new question sentence entered by the user.</returns>
-        public static string EditQuestionSentence(Question question)
+        private static string EditQuestionSentence(Question question)
         {
             // Prompt the user for the new question sentence
             Console.WriteLine("Please enter the new question sentence: ");
@@ -484,7 +482,7 @@ namespace QuizMakerProgram
         /// </summary>
         /// <param name="question">The question object whose answers the user will edit.</param>
         /// <returns>The array of edited answers.</returns>
-        public static string[] EditQuestionAnswers(Question question)
+        private static string[] EditQuestionAnswers(Question question)
         {
             string repeatMessage = "Do you want to edit more answers? ";
 
@@ -515,7 +513,7 @@ namespace QuizMakerProgram
         /// Prompts the user to enter a new answer to replace an existing answer.
         /// </summary>
         /// <returns>The new answer entered by the user.</returns>
-        public static string EditQuestionAnswer()
+        private static string EditQuestionAnswer()
         {
             // Prompt the user for the new answer
             Console.WriteLine("Please enter the new answer: ");
@@ -550,53 +548,24 @@ namespace QuizMakerProgram
             // Loop until a valid input (Y/N) is received
             while (true)
             {
+                // Write the given prompt to the console
                 Console.WriteLine(prompt);
+                // Read the user's input, convert it to uppercase character
                 repeat = char.ToUpper(Convert.ToChar(Console.ReadLine()));
 
-                // Break the loop if a valid input is received
+                // If the input is 'Y' or 'N', break the loop
                 if (repeat.Equals('N') || repeat.Equals('Y'))
                 {
                     break;
                 }
 
+                // Notify the user to enter a valid input if received input is neither 'Y' nor 'N'
                 Console.WriteLine("Please enter one of the valid inputs (Y/N).");
             }
 
-            // Return true for 'Y', false for 'N'
-            if (repeat.Equals('Y'))
-            {
-                Console.Clear();
-                return true;
-            }
+            // Clear the console and return true for 'Y', false for 'N'
             Console.Clear();
-            return false;
-        }
-
-        private static bool GetYesNo()
-        {
-            char repeat;
-            Console.WriteLine("Do you want to exit? ");
-            // Loop until a valid input (Y/N) is received
-            while (true)
-            {
-                repeat = char.ToUpper(Convert.ToChar(Console.ReadLine()));
-
-                // Break the loop if a valid input is received
-                if (repeat.Equals('N') || repeat.Equals('Y'))
-                {
-                    break;
-                }
-
-                Console.WriteLine("Please enter one of the valid inputs (Y/N).");
-            }
-
-            if (repeat.Equals('Y'))
-            {
-                Console.Clear();
-                return true;
-            }
-            Console.Clear();
-            return false;
+            return repeat.Equals('Y');
         }
 
         /// <summary>
@@ -608,20 +577,33 @@ namespace QuizMakerProgram
             Console.WriteLine("Thank you for playing our game! See you next time!");
         }
 
-        internal static void DeleteQuiz((string FilePath, List<Question> Questions) result)
+        /// <summary>
+        /// Deletes a quiz file specified by the provided FilePath, and updates the associated list of questions.
+        /// The user is prompted for confirmation before deletion.
+        /// </summary>
+        /// <param name="result">A tuple containing the file path of the quiz to be deleted and the list of questions associated with it.</param>
+        public static void DeleteQuiz((string FilePath, List<Question> Questions) result)
         {
+            // Prompt the user to confirm if they really want to delete the specified file
             Console.WriteLine($"Are you sure that you want to delete {result.FilePath} ?");
+            // Call the GetYesNo method with the DELETE_MESSAGE constant to get the user's confirmation
             bool delete = GetYesNo(Constants.DELETE_MESSAGE);
 
+            // If the user confirmed the deletion
             if (delete)
             {
+                // Delete the specified file
                 File.Delete(result.FilePath);
+                // Notify the user of the successful deletion
                 Console.WriteLine("File deleted successfully. Returning to the Main Menu...");
+                // Pause the thread for 1 second to allow the user to read the message
                 Thread.Sleep(1000);
             }
             else
             {
+                // If the user declined the deletion, notify them that the operation was cancelled
                 Console.WriteLine("Returning to the Main Menu...");
+                // Pause the thread for 1 second to allow the user to read the message
                 Thread.Sleep(1000);
             }
         }
