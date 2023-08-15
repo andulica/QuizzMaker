@@ -6,7 +6,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            GUI.WelcomeMessage();
+            GUI.DisplayWelcomeMessage();
             GameModes userChosenOption;
             do
             {

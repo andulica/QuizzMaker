@@ -161,7 +161,7 @@
         /// <summary>
         /// Displays a welcome message for the Quiz Game. The method sets the console title, foreground color, and background color to stylize the welcome message.
         /// </summary>
-        public static void WelcomeMessage()
+        public static void DisplayWelcomeMessage()
         {
             Console.Title = "Quiz Game";
             Console.ForegroundColor = ConsoleColor.Green;
