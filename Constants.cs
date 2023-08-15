@@ -1,6 +1,4 @@
-﻿using System.Net.NetworkInformation;
-
-namespace QuizMakerProgram
+﻿namespace QuizMakerProgram
 {
     public static class Constants
     {

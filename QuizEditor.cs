@@ -3,7 +3,7 @@
 namespace QuizMakerProgram
 {
     public class QuizEditor
-	{
+    {
 
         /// <summary>
         /// Selects a quiz from available XML files and starts the game.

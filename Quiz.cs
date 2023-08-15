@@ -38,7 +38,7 @@ namespace QuizMakerProgram
         {
             // Create an XmlSerializer for the List<Question> type
             XmlSerializer serializer = new XmlSerializer(typeof(List<Question>));
-            
+
             // Open a file stream for reading the specified XML file
             using (FileStream file = File.OpenRead(filePath))
             {

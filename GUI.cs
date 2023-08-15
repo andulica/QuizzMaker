@@ -7,15 +7,15 @@
         /// </summary>
         /// <returns>A string representing the user's question.</returns>
         public static string TakeUserQuestion()
-        {          
+        {
             string question = "";
 
             // Keep looping until a non-empty question is received
             while (string.IsNullOrEmpty(question))
-            {               
+            {
                 Console.WriteLine("Please enter your question: ");
                 question = Console.ReadLine();
-            }    
+            }
             return question;
         }
 
@@ -150,7 +150,7 @@
         /// Displays a list of answers to the console, numbering each answer.
         /// </summary>
         /// <param name="answersList">A list of answers to be displayed.</param>
-        private static void DisplayAnswers(string [] answersList)
+        private static void DisplayAnswers(string[] answersList)
         {
             for (int i = 0; i < answersList.Length; i++)
             {

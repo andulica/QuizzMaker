@@ -5,7 +5,7 @@
         public string QuestionString { get; set; }
         public string[] Answers { get; set; }
 
-        public Question ()
+        public Question()
         {
         }
 
