@@ -47,7 +47,7 @@ namespace ConsoleApp1
         /// </summary>
         /// <param name="questionsToPlay">The list of questions to be played in the quiz game.</param>
         /// <returns>Returns the total score achieved by the user.</returns>
-        internal static int PlayQuestionsFromFile(List<Question> questionsToPlay)
+        internal static void PlayQuestionsFromFile(List<Question> questionsToPlay)
         {
             int score = 0;
             bool repeat = true;
@@ -70,15 +70,13 @@ namespace ConsoleApp1
                         score++;
                     }
                 }
-
+                Console.WriteLine($"You have got {score} right out of {questionsToPlay.Count}!");
                 // Ask the user if they want to repeat the quiz
                 repeat = GUI.RepeatQuestions();
             }
 
             Console.WriteLine("No more questions. Going back to Main menu.");
             Main(null);
-
-            return score;
         }
     }
 }

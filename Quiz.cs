@@ -47,12 +47,20 @@ namespace QuizMakerProgram
             }
         }
 
+        /// <summary>
+        /// Replaces the list of questions in the specified XML file with the given list of questions.
+        /// </summary>
+        /// <param name="filePath">The path to the XML file where the questions will be saved.</param>
+        /// <param name="questions">The list of Question objects to be serialized into the XML file.</param>
         public static void ReplaceListOfQuestions(string filePath, List<Question> questions)
         {
+            // Create an XmlSerializer for the List<Question> type
             XmlSerializer serializer = new XmlSerializer(typeof(List<Question>));
 
+            // Create or overwrite the specified file using a StreamWriter
             using (StreamWriter file = File.CreateText(filePath))
             {
+                // Serialize the list of questions into the XML file
                 serializer.Serialize(file, questions);
             }
         }

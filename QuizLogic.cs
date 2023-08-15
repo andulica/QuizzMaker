@@ -27,7 +27,7 @@ namespace QuizMakerProgram
                 }
                 else
                 {
-                    Console.WriteLine("Better luck next time. Try again: ");
+                    Console.WriteLine("Incorrect... Better luck next time.");
                     break;
                 }
             }
@@ -75,17 +75,16 @@ namespace QuizMakerProgram
             return questions;
         }
 
-        public static void CreateQuiz()
-        {
-            Quiz.Serialization(GenerateQuestionsForGame());
-        }
-
+        /// <summary>
+        /// Shuffles the order of the questions in the given list using the Fisher-Yates algorithm.
+        /// </summary>
+        /// <param name="questions">The list of questions to shuffle.</param>
+        /// <returns>A shuffled list of questions.</returns>
         public static List<Question> ShuffleQuestions(List<Question> questions)
         {
             Random rnd = new Random();
 
-
-            // Shuffle the indices using Fisher-Yates shuffle
+            // Shuffle the indices using the Fisher-Yates shuffle algorithm
             for (int i = questions.Count - 1; i > 0; i--)
             {
                 int j = rnd.Next(i + 1);

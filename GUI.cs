@@ -1,4 +1,6 @@
-﻿namespace QuizMakerProgram
+﻿using ConsoleApp1;
+
+namespace QuizMakerProgram
 {
     public class GUI
     {
@@ -145,11 +147,6 @@
 
             return answers;
         }
-        public static void SelectQuizToPlay()
-        {
-            GUI.DisplayAllXmlFiles(Constants.BASE_PATH);
-            List<Question> questionsToPlay = GUI.SelectXmlFile(Constants.BASE_PATH);
-        }
 
         /// <summary>
         /// Displays a list of answers to the console, numbering each answer.
@@ -159,7 +156,7 @@
         {
             for (int i = 0; i < answersList.Length; i++)
             {
-                Console.WriteLine($"Answer {i}. {answersList[i]}");
+                Console.WriteLine($"Answer {i + 1}. {answersList[i]}");
             }
         }
 
@@ -188,15 +185,6 @@
         }
 
         /// <summary>
-        /// Displays the total credits available to the user or participant in the game.
-        /// </summary>
-        /// <param name="credits">The total number of credits to be displayed.</param>
-        public static void DisplayCredits(int credits)
-        {
-            Console.WriteLine($"Total credits are {credits} ");
-        }
-
-        /// <summary>
         /// Displays the main menu for the quiz game. The menu provides options to select, create, delete, or edit a quiz,
         /// view game rules, and exit the application.
         /// </summary>
@@ -214,23 +202,6 @@
             Console.WriteLine("4. Edit a specific quiz.");
             Console.WriteLine("5. Display game rules");
             Console.WriteLine("6. Exit");
-        }
-
-        /// <summary>
-        /// Displays a visual divider in the console with specific foreground and background colors.
-        /// The divider consists of a series of hash ('#') symbols, and it's surrounded by empty lines for visual separation.
-        /// </summary>
-        public static void DisplayDivider()
-        {
-            // Set the text color to yellow and the background color to black
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("       ########################");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.ResetColor();
         }
 
         /// <summary>
@@ -324,6 +295,11 @@
             }
         }
 
+        /// <summary>
+        /// Prompts the user to select an XML file by name, ensuring that the selected file exists and is not empty.
+        /// </summary>
+        /// <param name="basePath">The directory path where the XML files are located.</param>
+        /// <returns>A tuple containing the full file path and the deserialized list of questions from the selected XML file.</returns>
         public static (string FilePath, List<Question> Questions) SelectXmlFileAndFilePath(string basePath)
         {
             string nameForGame;
@@ -342,7 +318,7 @@
                     if (new FileInfo(filePath).Length > 0)
                     {
                         Console.Clear();
-                        // Deserialize the questions from the file and return them
+                        // Deserialize the questions from the file and return them along with the file path
                         return (filePath, Quiz.Deserialize(filePath));
                     }
                     else
@@ -356,7 +332,6 @@
                 }
             }
         }
-
 
         /// <summary>
         /// Displays a specified question along with its answers to the console.
@@ -377,38 +352,61 @@
             }
         }
 
-        public static void DisplayQuestions (List <Question> questions)
+        /// <summary>
+        /// Displays a list of questions to the console, enumerating them with numbers.
+        /// </summary>
+        /// <param name="questions">The list of questions to display.</param>
+        public static void DisplayQuestions(List<Question> questions)
         {
             Console.WriteLine("Questions are:");
             for (int i = 0; i < questions.Count; i++)
             {
+                // Print each question with its corresponding number
                 Console.WriteLine($"{i + 1}: {questions[i].QuestionString}");
             }
         }
 
-        public static List<Question> EditQuestionsList (List <Question> questionsToEdit)
+        /// <summary>
+        /// Allows the user to select a question from the provided list, edit it, and then update the list with the edited question.
+        /// </summary>
+        /// <param name="questionsToEdit">The list of questions that the user can choose to edit.</param>
+        /// <returns>The updated list of questions, with the selected question edited.</returns>
+        public static List<Question> EditQuestionsList(List<Question> questionsToEdit)
         {
+            // Allow the user to select a question from the provided list
             Question questionToEdit = SelectQuestionFromList(questionsToEdit);
+
+            // Edit the selected question (implementation details in the EditQuestion method)
             Question questionEdited = EditQuestion(questionToEdit);
+
+            // Remove the original question from the list
             questionsToEdit.Remove(questionToEdit);
+
+            // Add the edited question to the list
             questionsToEdit.Add(questionEdited);
+
+            // Return the updated list of questions
             return questionsToEdit;
-            
         }
 
-        public static Question SelectQuestionFromList (List <Question> questionsList)
+        /// <summary>
+        /// Prompts the user to select a question from the provided list by entering a number that corresponds to the question's position.
+        /// </summary>
+        /// <param name="questionsList">The list of questions from which the user can choose.</param>
+        /// <returns>The selected question.</returns>
+        public static Question SelectQuestionFromList(List<Question> questionsList)
         {
-            Console.WriteLine($"Please choose an question:  ");
+            Console.WriteLine($"Please choose a question: ");
 
             // Keep looping until a valid input is received
             while (true)
             {
                 string userAnswerString = Console.ReadLine();
-                 
+
                 // Attempt to parse the input string to an integer
                 if (int.TryParse(userAnswerString, out int userAnswerInt))
                 {
-                    // If the parsed integer is within the specified range, return it
+                    // If the parsed integer is within the specified range, return the corresponding question
                     if (userAnswerInt >= 1 && userAnswerInt <= questionsList.Count)
                     {
                         return questionsList[userAnswerInt - 1];
@@ -424,66 +422,110 @@
                 }
             }
         }
-        public static Question EditQuestion (Question questionToEdit)
+
+        /// <summary>
+        /// Provides options for the user to edit either the sentence or the answers of the specified question.
+        /// Allows the user to continue editing until they choose to exit.
+        /// </summary>
+        /// <param name="questionToEdit">The question object that the user can edit.</param>
+        /// <returns>The edited question object.</returns>
+        public static Question EditQuestion(Question questionToEdit)
         {
             Console.WriteLine("Choose one of the following options: \n1. Edit question's sentence. \n2. Edit question's answers.");
             int userInput = TakeUserInput(2);
             bool exit;
+
+            // Keep looping until the user decides to exit
             do
             {
                 switch (userInput)
                 {
-                    case 1:
+                    case 1: // Edit the question's sentence
                         questionToEdit.QuestionString = EditQuestionSentence(questionToEdit);
-                        Console.WriteLine("Questions sentence changed successfully!");
+                        Console.WriteLine("Question's sentence changed successfully!");
                         break;
-                    case 2:
+                    case 2: // Edit the question's answers
                         questionToEdit.Answers = EditQuestionAnswers(questionToEdit);
-                        Console.WriteLine("Questions answer(s) changed successfully!");
+                        Console.WriteLine("Question's answer(s) changed successfully!");
                         break;
                     default:
                         break;
                 }
+
+                // Ask the user if they want to continue editing or exit
                 exit = GetYesNo();
             }
             while (!exit);
 
+            // Return the edited question
             return questionToEdit;
         }
 
-        public static string EditQuestionSentence (Question question)
+        /// <summary>
+        /// Prompts the user to enter a new sentence for the specified question.
+        /// </summary>
+        /// <param name="question">The question object whose sentence the user will edit.</param>
+        /// <returns>The new question sentence entered by the user.</returns>
+        public static string EditQuestionSentence(Question question)
         {
+            // Prompt the user for the new question sentence
             Console.WriteLine("Please enter the new question sentence: ");
+
+            // Read the user's input
             string questionSentence = Console.ReadLine();
 
+            // Return the new question sentence
             return questionSentence;
         }
 
-        public static string[] EditQuestionAnswers (Question question)
+        /// <summary>
+        /// Allows the user to edit one or more answers of the specified question.
+        /// The user is repeatedly prompted to edit answers until they choose not to continue.
+        /// </summary>
+        /// <param name="question">The question object whose answers the user will edit.</param>
+        /// <returns>The array of edited answers.</returns>
+        public static string[] EditQuestionAnswers(Question question)
         {
-            string repeatMessage = "Do you want edit more answers? ";
-            bool continueEditAnswers = GetYesNo(repeatMessage);
+            string repeatMessage = "Do you want to edit more answers? ";
+
+            // Prompt the user if they want to continue editing answers
+            bool continueEditAnswers;
+
             do
             {
+                // Display the current answers
                 DisplayAnswers(question.Answers);
+
+                // Take user input to select an answer to edit
                 int userSelectedAnswer = TakeUserInput(question.Answers.Length);
 
+                // Edit the selected answer (implementation details in the EditQuestionAnswer method)
                 question.Answers[userSelectedAnswer] = EditQuestionAnswer();
 
+                // Check again if the user wants to continue editing answers
+                continueEditAnswers = GetYesNo(repeatMessage);
             }
             while (continueEditAnswers);
 
+            // Return the edited answers
             return question.Answers;
         }
 
-        public static string EditQuestionAnswer ()
+        /// <summary>
+        /// Prompts the user to enter a new answer to replace an existing answer.
+        /// </summary>
+        /// <returns>The new answer entered by the user.</returns>
+        public static string EditQuestionAnswer()
         {
+            // Prompt the user for the new answer
             Console.WriteLine("Please enter the new answer: ");
+
+            // Read the user's input
             string newAnswer = Console.ReadLine();
 
+            // Return the new answer
             return newAnswer;
         }
-
 
         /// <summary>
         /// Asks the user if they would like to repeat the quiz, accepting only 'Y' or 'N' as valid inputs.
@@ -495,8 +537,12 @@
             return GetYesNo("Want to repeat the game?");
         }
 
-
-
+        /// <summary>
+        /// Prompts the user with the given message and expects a 'Y' (Yes) or 'N' (No) response.
+        /// Loops until a valid response is received.
+        /// </summary>
+        /// <param name="prompt">The message to display to the user when prompting for input.</param>
+        /// <returns>True if the user responds with 'Y', false if the user responds with 'N'.</returns>
         private static bool GetYesNo(string prompt)
         {
             char repeat;
@@ -516,7 +562,7 @@
                 Console.WriteLine("Please enter one of the valid inputs (Y/N).");
             }
 
-
+            // Return true for 'Y', false for 'N'
             if (repeat.Equals('Y'))
             {
                 Console.Clear();
@@ -544,7 +590,6 @@
                 Console.WriteLine("Please enter one of the valid inputs (Y/N).");
             }
 
-
             if (repeat.Equals('Y'))
             {
                 Console.Clear();
@@ -561,6 +606,24 @@
         public static void DisplayExitMessage()
         {
             Console.WriteLine("Thank you for playing our game! See you next time!");
+        }
+
+        internal static void DeleteQuiz((string FilePath, List<Question> Questions) result)
+        {
+            Console.WriteLine($"Are you sure that you want to delete {result.FilePath} ?");
+            bool delete = GetYesNo(Constants.DELETE_MESSAGE);
+
+            if (delete)
+            {
+                File.Delete(result.FilePath);
+                Console.WriteLine("File deleted successfully. Returning to the Main Menu...");
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                Console.WriteLine("Returning to the Main Menu...");
+                Thread.Sleep(1000);
+            }
         }
     }
 }
