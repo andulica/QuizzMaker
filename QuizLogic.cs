@@ -4,8 +4,6 @@ namespace QuizMakerProgram
 {
     public class QuizLogic
     {
-        public XmlSerializer writer = new XmlSerializer(typeof(List<Question>));
-
         /// <summary>
         /// Evaluates a player's answer to a quiz question.
         /// The method takes in the correct answers (marked with an asterisk) and repeatedly prompts the player to select an answer until a correct one is chosen.
@@ -33,46 +31,6 @@ namespace QuizMakerProgram
             }
             // Return the result of the evaluation (always true, as the loop ensures a correct answer)
             return correct;
-        }
-
-        /// <summary>
-        /// Generates a list of questions for a quiz game.
-        /// This method continuously prompts the user to create new questions with their corresponding answers, and to mark at least one correct answer.
-        /// The user can choose to continue adding more questions or stop and return the created list of questions.
-        /// </summary>
-        /// <returns>Returns a list of questions for the game.</returns>
-        public static List<Question> GenerateQuestionsForGame()
-        {
-            List<Question> questions = new List<Question>();
-            string continueAdding;
-
-            do
-            {
-                // Take a question from the user
-                Question question = new Question(GUI.TakeUserQuestion(), GUI.TakeUserAnswers());
-
-                // Add the question to the list
-                questions.Add(question);
-
-                while (true)
-                {
-                    Console.WriteLine("Do you want to add more questions? (Y/N)");
-                    continueAdding = Console.ReadLine().ToUpper();
-
-                    if (continueAdding.Equals("Y") || continueAdding.Equals("N"))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Only Y/N are accepted. Please enter a valid input:");
-                    }
-                }
-
-                // Continue adding questions as long as the user enters "Y"
-            } while (continueAdding.Equals("Y"));
-
-            return questions;
         }
 
         /// <summary>
