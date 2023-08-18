@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace QuizMakerProgram
+﻿namespace QuizMakerProgram
 {
     public class QuizLogic
     {

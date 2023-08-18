@@ -70,13 +70,12 @@ namespace ConsoleApp1
                         score++;
                     }
                 }
-                Console.WriteLine($"You have got {score} right out of {questionsToPlay.Count}!");
+                GUI.DisplayScore(score, questionsToPlay);
                 // Ask the user if they want to repeat the quiz
                 repeat = GUI.RepeatQuestions();
             }
 
-            Console.WriteLine("No more questions. Going back to Main menu.");
-            Main(null);
+            GUI.DisplayReturnToMainMenu(null);
         }
     }
 }

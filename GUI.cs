@@ -1,4 +1,6 @@
-﻿namespace QuizMakerProgram
+﻿using static System.Formats.Asn1.AsnWriter;
+
+namespace QuizMakerProgram
 {
     public class GUI
     {
@@ -215,6 +217,7 @@
         /// </summary>
         public static void DisplayGameRules()
         {
+            Console.Clear();
             Console.WriteLine("Welcome to our game. The rules for this game are as follows: " +
                 "\n From the Main Menu, you have the possibility to create new games with as many questions as you want." +
                 "\n For each question, you will be prompted to add a maximum of 5 answers." +
@@ -635,17 +638,30 @@
                 // Delete the specified file
                 File.Delete(result.FilePath);
                 // Notify the user of the successful deletion
-                Console.WriteLine("File deleted successfully. Returning to the Main Menu...");
-                // Pause the thread for 1 second to allow the user to read the message
-                Thread.Sleep(1000);
+                DisplayReturnToMainMenu(Constants.FILES_DELETED_MESSAGE);
             }
             else
             {
                 // If the user declined the deletion, notify them that the operation was cancelled
-                Console.WriteLine("Returning to the Main Menu...");
-                // Pause the thread for 1 second to allow the user to read the message
-                Thread.Sleep(1000);
+                DisplayReturnToMainMenu(Constants.DELETION_CANCELED_MESSAGE);
             }
+        }
+
+        /// <summary>
+        /// Displays the user's score in the console.
+        /// </summary>
+        /// <param name="score">The number of questions the user answered correctly.</param>
+        /// <param name="questions">The list of questions that were asked. The total number of questions is determined by the count of this list.</param>
+        public static void DisplayScore(int score, List<Question> questions)
+        {
+            Console.WriteLine($"You have got {score} right out of {questions.Count}!");
+        }
+
+        public static void DisplayReturnToMainMenu(string messageToAdd)
+        {
+            Console.Clear();
+            Console.WriteLine($"{messageToAdd} Going back to Main menu . . .");
+            Thread.Sleep(1000);
         }
     }
 }

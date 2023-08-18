@@ -6,5 +6,8 @@
         public const string BASE_PATH = @"C:\temp\";
         public const string DELETE_MESSAGE = "Press Y for 'Yes' and N for 'No':";
         public const string EXIT_MESSAGE = "Do you want to exit?";
+        public const string NO_MORE_QUESTIONS_MESSAGE = "No more questions.";
+        public const string FILES_DELETED_MESSAGE = "File deleted successfully.";
+        public const string DELETION_CANCELED_MESSAGE = "Deletion canceled.";
     }
 }
