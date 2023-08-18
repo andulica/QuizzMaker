@@ -4,7 +4,7 @@
     {
         public const int MAX_ANSWERS_PER_QUESTION = 5;
         public const string BASE_PATH = @"C:\temp\";
-        public static string DELETE_MESSAGE = "Press Y for 'Yes' and N for 'No':";
-        public static string EXIT_MESSAGE = "Do you want to exit?";
+        public const string DELETE_MESSAGE = "Press Y for 'Yes' and N for 'No':";
+        public const string EXIT_MESSAGE = "Do you want to exit?";
     }
 }
