@@ -99,36 +99,37 @@
         }
 
         /// <summary>
-        /// Takes answers for a specific question from the user. The method ensures that exactly 5 answers are introduced,
-        /// and at least one correct answer is marked with an asterisk symbol ('*').
+        /// Prompts the user to provide answers for a specific question. The method ensures that the user provides exactly 5 answers,
+        /// and marks at least one of them as correct using an asterisk ('*').
         /// </summary>
-        /// <returns>An array of answers, where correct answers are denoted with an asterisk.</returns>
+        /// <returns>An array of answers, where correct answers are denoted with an asterisk at the start.</returns>
         public static string[] TakeUserAnswers()
         {
             string[] answers;
 
-            // Continue the loop until at least one answer is marked as correct
+            // Keep prompting the user until at least one correct answer is provided
             do
             {
-                // Initialize the array with the specified number of answers
+                // Initialize the array to store the specified number of answers
                 answers = new string[Constants.MAX_ANSWERS_PER_QUESTION];
                 int index = 0;
 
+                // Notify the user about the required number of answers
                 Console.WriteLine($"Please enter {Constants.MAX_ANSWERS_PER_QUESTION} answers for this question: ");
 
-                // Loop to take 5 answers from the user
+                // Loop to collect all the answers from the user
                 while (index < Constants.MAX_ANSWERS_PER_QUESTION)
                 {
                     string answer = Console.ReadLine();
 
-                    // Check if the answer is not empty or null
+                    // Ensure the user doesn't provide an empty or null answer
                     if (string.IsNullOrEmpty(answer))
                     {
                         Console.WriteLine("Please enter a valid value.");
                     }
                     else
                     {
-                        // Display the answer and store it in the array
+                        // Confirm and store the answer provided by the user
                         Console.WriteLine($"Answer {index + 1} is: {answer}");
                         answers[index] = answer;
                         index++;
@@ -137,21 +138,27 @@
 
                 string prompt = "Do you want to mark more answers as correct? (Y/N) ";
                 bool finish = true;
+
+                // Loop to allow the user to mark answers as correct
                 while (finish)
                 {
                     Console.WriteLine("Please select the answer(s) to be marked as right answer(s): ");
                     int correctAnswer = TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
-                    
+
+                    // Check if the selected answer has already been marked as correct
                     if (answers[correctAnswer - 1].Contains("*"))
                     {
                         Console.WriteLine("This answer has been marked correct already.");
                     }
-                    answers[correctAnswer -1] =  answers[correctAnswer - 1].Insert(0, "*");
 
+                    // Prefix the selected answer with an asterisk to mark it as correct
+                    answers[correctAnswer - 1] = answers[correctAnswer - 1].Insert(0, "*");
+
+                    // Ask the user if they want to mark more answers as correct
                     finish = GetYesNo(prompt);
                 }
 
-            } while (!answers.Any(a => a.Contains('*'))); // Repeat the loop if no correct answers are provided
+            } while (!answers.Any(a => a.Contains('*'))); // Continue looping until at least one answer is marked as correct
 
             return answers;
         }
