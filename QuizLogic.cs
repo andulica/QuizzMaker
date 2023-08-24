@@ -18,12 +18,10 @@
                 // Check if the selected answer is marked with an asterisk in the original array
                 if (answersWithAsterisks[answer - 1].Contains('*'))
                 {
-                    Console.WriteLine("Correct!");
                     correct = true;
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect... Better luck next time.");
                     break;
                 }
             }

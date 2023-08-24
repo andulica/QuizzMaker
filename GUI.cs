@@ -1,6 +1,4 @@
-﻿using static System.Formats.Asn1.AsnWriter;
-
-namespace QuizMakerProgram
+﻿namespace QuizMakerProgram
 {
     public class GUI
     {
@@ -116,7 +114,7 @@ namespace QuizMakerProgram
                 answers = new string[Constants.MAX_ANSWERS_PER_QUESTION];
                 int index = 0;
 
-                Console.WriteLine($"Please enter {Constants.MAX_ANSWERS_PER_QUESTION} answers for this question. Mark the correct answer(s) with the symbol '*': ");
+                Console.WriteLine($"Please enter {Constants.MAX_ANSWERS_PER_QUESTION} answers for this question: ");
 
                 // Loop to take 5 answers from the user
                 while (index < Constants.MAX_ANSWERS_PER_QUESTION)
@@ -137,10 +135,20 @@ namespace QuizMakerProgram
                     }
                 }
 
-                // Check if any of the answers have been marked as correct
-                if (!answers.Any(a => a.Contains('*')))
+                string prompt = "Do you want to mark more answers as correct? (Y/N) ";
+                bool finish = true;
+                while (finish)
                 {
-                    Console.WriteLine("Error: No answer has been marked as correct. Ensure you mark at least one correct answer with '*'. Please re-enter the answers.");
+                    Console.WriteLine("Please select the answer(s) to be marked as right answer(s): ");
+                    int correctAnswer = TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
+                    
+                    if (answers[correctAnswer - 1].Contains("*"))
+                    {
+                        Console.WriteLine("This answer has been marked correct already.");
+                    }
+                    answers[correctAnswer -1] =  answers[correctAnswer - 1].Insert(0, "*");
+
+                    finish = GetYesNo(prompt);
                 }
 
             } while (!answers.Any(a => a.Contains('*'))); // Repeat the loop if no correct answers are provided
@@ -575,7 +583,7 @@ namespace QuizMakerProgram
         /// <returns>True if the user chooses 'Y', indicating they want to repeat the quiz; false if they choose 'N'.</returns>
         public static bool RepeatQuestions()
         {
-            return GetYesNo("Want to repeat the game?");
+            return GetYesNo("No more questions. Want to repeat the game?");
         }
 
         /// <summary>
@@ -657,11 +665,16 @@ namespace QuizMakerProgram
             Console.WriteLine($"You have got {score} right out of {questions.Count}!");
         }
 
+        /// <summary>
+        /// Clears the console and displays a message indicating a return to the main menu.
+        /// Then, pauses the execution for a short time to allow the user to read the message.
+        /// </summary>
+        /// <param name="messageToAdd">An additional message to display before the standard "Going back to Main menu..." text.</param>
         public static void DisplayReturnToMainMenu(string messageToAdd)
         {
-            Console.Clear();
-            Console.WriteLine($"{messageToAdd} Going back to Main menu . . .");
-            Thread.Sleep(1000);
+            Console.Clear(); // Clears the console
+            Console.WriteLine($"{messageToAdd} Going back to Main menu . . ."); // Prints the provided message along with the standard text
+            Thread.Sleep(1000); // Pauses for 1 second (1000 milliseconds) to allow the user to read the message
         }
     }
 }
