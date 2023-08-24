@@ -11,7 +11,7 @@ namespace ConsoleApp1
             do
             {
                 GUI.DisplayMenu();
-                userChosenOption = (GameModes)GUI.TakeUserInput((int)GameModes.Play, (int)GameModes.Exit);
+                userChosenOption = (GameModes)GUI.TakeUserInput((int)GameModes.Exit);
                 switch (userChosenOption)
                 {
                     case GameModes.Play:

@@ -20,39 +20,6 @@
         }
 
         /// <summary>
-        /// Takes the user input from the console and ensures that it is a valid integer within the specified range.
-        /// </summary>
-        /// <returns>An integer representing the valid user input.</returns>
-        public static int TakeUserInput(int min, int max)
-        {
-            Console.WriteLine($"Please choose one of the options ({min} to {max}): ");
-
-            // Keep looping until a valid input is received
-            while (true)
-            {
-                string userInputString = Console.ReadLine();
-
-                // Attempt to parse the input string to an integer
-                if (int.TryParse(userInputString, out int userInputInt))
-                {
-                    // If the parsed integer is within the specified range, return it
-                    if (userInputInt >= min && userInputInt <= max)
-                    {
-                        return userInputInt;
-                    }
-                    else // Otherwise, notify the user that the input was out of range
-                    {
-                        Console.WriteLine($"Please enter a number from {min} to {max}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Please enter a number that corresponds to the listed options: ");
-                }
-            }
-        }
-
-        /// <summary>
         /// Takes the user's answer from the console and ensures that it is a valid integer within the specified range (1 to 5).
         /// </summary>
         /// <returns>An integer representing the valid user answer.</returns>
