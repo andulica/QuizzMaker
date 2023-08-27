@@ -40,89 +40,87 @@ namespace ConsoleApp1
         }
 
         /// <summary>
-        /// Runs the game by playing questions from a given list of questions. Questions are displayed to the user, 
-        /// answers are collected and evaluated, and scores are updated and displayed.
+        /// Executes the quiz game using a list of questions. Each question is presented to the user one at a time,
+        /// the user's answers are collected and evaluated, and the user's score is updated accordingly.
+        /// The quiz will repeat if the user decides to play again.
         /// </summary>
-        /// <param name="questionsToPlay">A list of questions that the user will attempt.</param>
+        /// <param name="questionsToPlay">A list of questions that will be used in the quiz.</param>
         internal static void PlayQuestionsFromFile(List<Question> questionsToPlay)
         {
-            // The score for an individual question
-            int individualQuestionScore = 0;
-
-            // Total score for all questions in the game session
-            int generalGameScore = 0;
-
             // Flag to determine if the user wants to repeat the quiz
             bool repeat = true;
 
-            // The quiz will continue as long as the user wishes to repeat
+            // Main loop to handle replaying the quiz
             while (repeat)
             {
-                // Shuffle the list of questions to provide randomness
+                // Initialize the total score for the current game session
+                int generalGameScore = 0;
+
+                // Shuffle the list of questions for randomness
                 List<Question> shuffledListOfQuestions = QuizLogic.ShuffleQuestions(questionsToPlay);
 
-                // Iterate over all questions and present them to the user
+                // Loop through each question in the shuffled list
                 for (int i = 0; i < questionsToPlay.Count; i++)
                 {
-                    // Show the current question and its answer options
+                    // Initialize the score for the current individual question
+                    int individualQuestionScore = 0;
+
+                    // Display the current question and its answer options
                     GUI.DisplayQuestionItsAnswers(shuffledListOfQuestions[i]);
 
-                    // Determine the number of correct answers for the current question
+                    // Count the number of correct answers for the current question
                     int correctAnswers = shuffledListOfQuestions[i].Answers.Count(answer => answer.Contains(Constants.CORRECT_ANSWER_MARKER));
 
-                    // Flag to check if the first correct answer has been verified
-                    bool firstCheckedCorrectAnswer = false;
+                    // HashSet to keep track of answers that have already been selected by the user
+                    HashSet<int> selectedAnswers = new HashSet<int>();
 
-                    // Iterate through all correct answers and verify the user's inputs
+                    // Loop to collect and evaluate user's answers for questions with multiple correct answers
                     for (int j = 0; j < correctAnswers; j++)
                     {
-                        // Get the user's answer (assuming a 1-based index)
-                        int answer = GUI.TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
+                        int answer;
+                        // Make sure the user doesn't select an answer they've already chosen
+                        do
+                        {
+                            answer = GUI.TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
+                        } while (selectedAnswers.Contains(answer));
 
-                        // Check if the given answer is incorrect
-                        if (!QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, answer))
+                        // Add the selected answer to the HashSet
+                        selectedAnswers.Add(answer);
+
+                        // Evaluate if the selected answer is correct
+                        bool isCorrect = QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, answer);
+
+                        // If the answer is incorrect, notify the user and break the loop
+                        if (!isCorrect)
                         {
                             Console.WriteLine("Incorrect ... Better luck next time.");
-                            individualQuestionScore = 0;
-                            break; // Exit the loop if the user's answer is incorrect
-                        }
-
-                        // Check if the given answer is correct
-                        if (QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, answer))
-                        {
-                            firstCheckedCorrectAnswer = true;
-                            individualQuestionScore++;
-                        }
-
-                        // Update the total score if all correct answers have been identified
-                        if (correctAnswers == individualQuestionScore)
-                        {
-                            generalGameScore += individualQuestionScore - j;
-
-                            Console.WriteLine("You got the correct answer(s)!");
-                            individualQuestionScore = 0;
                             break;
                         }
 
-                        // Notify the user if there are multiple correct answers
-                        if (firstCheckedCorrectAnswer && QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, answer))
+                        // Increment the score for the individual question
+                        individualQuestionScore++;
+
+                        // If all correct answers have been identified, update the total score
+                        if (correctAnswers == individualQuestionScore)
                         {
-                            Console.WriteLine($"There are more than {j + 1} correct answer(s). Please enter the next answer: ");
+                            generalGameScore += individualQuestionScore - j;
+                            Console.WriteLine("You got the correct answer(s)!");
+                            break;
                         }
+
+                        // Notify the user if there are more correct answers to identify
+                        Console.WriteLine($"There are more than {j + 1} correct answer(s). Please enter the next answer: ");
                     }
                 }
 
                 // Display the total score for the current game session
                 GUI.DisplayScore(generalGameScore, questionsToPlay);
 
-                // Reset the game's score for a potential next session
-                generalGameScore = 0;
-
                 // Ask the user if they wish to play again
                 repeat = GUI.RepeatQuestions();
             }
 
-            // Once done, offer an option to return to the main menu
+            // Display the option to return to the main menu
             GUI.DisplayReturnToMainMenu(string.Empty);
         }
     }
