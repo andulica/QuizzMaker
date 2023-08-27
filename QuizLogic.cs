@@ -10,23 +10,14 @@
         /// <returns>Returns 'true' if the player's answer is correct.</returns>
         public static bool EvaluatePlayerAnswer(string[] answersWithAsterisks, int answer)
         {
-            bool correct = false;
 
-            // Keep prompting the player for an answer until a correct one is chosen
-            while (!correct)
+            // Check if the selected answer is marked with an asterisk in the original array
+            if (answersWithAsterisks[answer - 1].Contains(Constants.CORRECT_ANSWER_MARKER))
             {
-                // Check if the selected answer is marked with an asterisk in the original array
-                if (answersWithAsterisks[answer - 1].Contains(Constants.CORRECT_ANSWER_MARKER))
-                {
-                    correct = true;
-                }
-                else
-                {
-                    break;
-                }
+                return true;
             }
-            // Return the result of the evaluation (always true, as the loop ensures a correct answer)
-            return correct;
+
+            return false;
         }
 
         /// <summary>
