@@ -68,7 +68,7 @@ namespace ConsoleApp1
                     GUI.DisplayQuestionItsAnswers(shuffledListOfQuestions[i]);
 
                     // Determine the number of correct answers for the current question
-                    int correctAnswers = shuffledListOfQuestions[i].Answers.Count(answer => answer.Contains('*'));
+                    int correctAnswers = shuffledListOfQuestions[i].Answers.Count(answer => answer.Contains(Constants.CORRECT_ANSWER_MARKER));
 
                     // Flag to check if the first correct answer has been verified
                     bool firstCheckedCorrectAnswer = false;

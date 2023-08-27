@@ -11,5 +11,6 @@
         public const string DELETION_CANCELED_MESSAGE = "Deletion canceled.";
         public const char CHOICE_YES = 'Y';
         public const char CHOICE_NO = 'N';
+        public const string CORRECT_ANSWER_MARKER = "*";
     }
 }

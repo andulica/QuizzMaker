@@ -72,58 +72,53 @@
         {
             string[] answers;
 
-            // Keep prompting the user until at least one correct answer is provided
-            do
+            // Initialize the array to store the specified number of answers
+            answers = new string[Constants.MAX_ANSWERS_PER_QUESTION];
+            int index = 0;
+
+            // Notify the user about the required number of answers
+            Console.WriteLine($"Please enter {Constants.MAX_ANSWERS_PER_QUESTION} answers for this question: ");
+
+            // Loop to collect all the answers from the user
+            while (index < Constants.MAX_ANSWERS_PER_QUESTION)
             {
-                // Initialize the array to store the specified number of answers
-                answers = new string[Constants.MAX_ANSWERS_PER_QUESTION];
-                int index = 0;
+                string answer = Console.ReadLine();
 
-                // Notify the user about the required number of answers
-                Console.WriteLine($"Please enter {Constants.MAX_ANSWERS_PER_QUESTION} answers for this question: ");
-
-                // Loop to collect all the answers from the user
-                while (index < Constants.MAX_ANSWERS_PER_QUESTION)
+                // Ensure the user doesn't provide an empty or null answer
+                if (string.IsNullOrEmpty(answer))
                 {
-                    string answer = Console.ReadLine();
+                    Console.WriteLine("Please enter a valid value.");
+                }
+                else
+                {
+                    // Confirm and store the answer provided by the user
+                    Console.WriteLine($"Answer {index + 1} is: {answer}");
+                    answers[index] = answer;
+                    index++;
+                }
+            }
 
-                    // Ensure the user doesn't provide an empty or null answer
-                    if (string.IsNullOrEmpty(answer))
-                    {
-                        Console.WriteLine("Please enter a valid value.");
-                    }
-                    else
-                    {
-                        // Confirm and store the answer provided by the user
-                        Console.WriteLine($"Answer {index + 1} is: {answer}");
-                        answers[index] = answer;
-                        index++;
-                    }
+            string prompt = "Do you want to mark more answers as correct? (Y/N) ";
+            bool finish = true;
+
+            // Loop to allow the user to mark answers as correct
+            while (finish)
+            {
+                Console.WriteLine("Please select the answer(s) to be marked as right answer(s): ");
+                int correctAnswer = TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
+
+                // Check if the selected answer has already been marked as correct
+                if (answers[correctAnswer - 1].Contains("*"))
+                {
+                    Console.WriteLine("This answer has been marked correct already.");
                 }
 
-                string prompt = "Do you want to mark more answers as correct? (Y/N) ";
-                bool finish = true;
+                // Prefix the selected answer with an asterisk to mark it as correct
+                answers[correctAnswer - 1] = answers[correctAnswer - 1].Insert(0, "*");
 
-                // Loop to allow the user to mark answers as correct
-                while (finish)
-                {
-                    Console.WriteLine("Please select the answer(s) to be marked as right answer(s): ");
-                    int correctAnswer = TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
-
-                    // Check if the selected answer has already been marked as correct
-                    if (answers[correctAnswer - 1].Contains("*"))
-                    {
-                        Console.WriteLine("This answer has been marked correct already.");
-                    }
-
-                    // Prefix the selected answer with an asterisk to mark it as correct
-                    answers[correctAnswer - 1] = answers[correctAnswer - 1].Insert(0, "*");
-
-                    // Ask the user if they want to mark more answers as correct
-                    finish = GetYesNo(prompt);
-                }
-
-            } while (!answers.Any(a => a.Contains('*'))); // Continue looping until at least one answer is marked as correct
+                // Ask the user if they want to mark more answers as correct
+                finish = GetYesNo(prompt);
+            }
 
             return answers;
         }
