@@ -137,7 +137,7 @@
         public static List<Question> TakeQuestionsForQuiz()
         {
             List<Question> questions = new List<Question>();
-            string continueAdding;
+            bool continueAdding;
 
             do
             {
@@ -147,23 +147,10 @@
                 // Add the question to the list
                 questions.Add(question);
 
-                while (true)
-                {
-                    Console.WriteLine("Do you want to add more questions? (Y/N)");
-                    continueAdding = Console.ReadLine().ToUpper();
-
-                    if (continueAdding.Equals("Y") || continueAdding.Equals("N"))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Only Y/N are accepted. Please enter a valid input:");
-                    }
-                }
+                continueAdding = GetYesNo("Do you want to add more questions? (Y/N)");
 
                 // Continue adding questions as long as the user enters "Y"
-            } while (continueAdding.Equals("Y"));
+            } while (continueAdding);
 
             return questions;
         }
@@ -574,10 +561,10 @@
                 // Write the given prompt to the console
                 Console.WriteLine(prompt);
                 // Read the user's input, convert it to uppercase character
-                repeat = char.ToUpper(Convert.ToChar(Console.ReadLine()));
+                repeat = char.ToUpper(Console.ReadKey().KeyChar);
 
                 // If the input is 'Y' or 'N', break the loop
-                if (repeat.Equals('N') || repeat.Equals('Y'))
+                if (repeat.Equals(Constants.CHOICE_NO) || repeat.Equals(Constants.CHOICE_YES))
                 {
                     break;
                 }
@@ -588,7 +575,7 @@
 
             // Clear the console and return true for 'Y', false for 'N'
             Console.Clear();
-            return repeat.Equals('Y');
+            return repeat.Equals(Constants.CHOICE_YES);
         }
 
         /// <summary>

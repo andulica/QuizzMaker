@@ -9,5 +9,7 @@
         public const string NO_MORE_QUESTIONS_MESSAGE = "No more questions.";
         public const string FILES_DELETED_MESSAGE = "File deleted successfully.";
         public const string DELETION_CANCELED_MESSAGE = "Deletion canceled.";
+        public const char CHOICE_YES = 'Y';
+        public const char CHOICE_NO = 'N';
     }
 }
