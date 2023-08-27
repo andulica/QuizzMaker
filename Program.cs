@@ -123,7 +123,7 @@ namespace ConsoleApp1
             }
 
             // Once done, offer an option to return to the main menu
-            GUI.DisplayReturnToMainMenu(null);
+            GUI.DisplayReturnToMainMenu(string.Empty);
         }
     }
 }
