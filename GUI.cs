@@ -98,7 +98,7 @@
                 }
             }
 
-            string prompt = "Do you want to mark more answers as correct? (Y/N) ";
+            string prompt = $"Do you want to mark more answers as correct? ({Constants.CHOICE_YES}/{Constants.CHOICE_NO}) ";
             bool finish = true;
 
             // Loop to allow the user to mark answers as correct
@@ -108,13 +108,13 @@
                 int correctAnswer = TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
 
                 // Check if the selected answer has already been marked as correct
-                if (answers[correctAnswer - 1].Contains("*"))
+                if (answers[correctAnswer - 1].Contains(Constants.CORRECT_ANSWER_MARKER))
                 {
                     Console.WriteLine("This answer has been marked correct already.");
                 }
 
                 // Prefix the selected answer with an asterisk to mark it as correct
-                answers[correctAnswer - 1] = answers[correctAnswer - 1].Insert(0, "*");
+                answers[correctAnswer - 1] = answers[correctAnswer - 1].Insert(0, Constants.CORRECT_ANSWER_MARKER);
 
                 // Ask the user if they want to mark more answers as correct
                 finish = GetYesNo(prompt);
@@ -142,7 +142,7 @@
                 // Add the question to the list
                 questions.Add(question);
 
-                continueAdding = GetYesNo("Do you want to add more questions? (Y/N)");
+                continueAdding = GetYesNo($"Do you want to add more questions? ({Constants.CHOICE_YES}/{Constants.CHOICE_NO})");
 
                 // Continue adding questions as long as the user enters "Y"
             } while (continueAdding);
@@ -253,7 +253,7 @@
             for (int i = 0; i < answersWithAsterisks.Length; i++)
             {
                 // For each answer, remove the asterisk (if present) by replacing it with an empty string
-                answersWithoutAsterisks[i] = answersWithAsterisks[i].Replace("*", "");
+                answersWithoutAsterisks[i] = answersWithAsterisks[i].Replace(Constants.CORRECT_ANSWER_MARKER, string.Empty);
             }
 
             return answersWithoutAsterisks;
@@ -565,7 +565,7 @@
                 }
 
                 // Notify the user to enter a valid input if received input is neither 'Y' nor 'N'
-                Console.WriteLine("Please enter one of the valid inputs (Y/N).");
+                Console.WriteLine($"Please enter one of the valid inputs ({Constants.CHOICE_YES}/{Constants.CHOICE_NO}).");
             }
 
             // Clear the console and return true for 'Y', false for 'N'
