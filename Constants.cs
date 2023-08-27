@@ -3,7 +3,7 @@
     public static class Constants
     {
         public const int MAX_ANSWERS_PER_QUESTION = 5;
-        public const string BASE_PATH = @"C:\temp\";
+        public static readonly string BASE_PATH = AppDomain.CurrentDomain.BaseDirectory;
         public const string DELETE_MESSAGE = "Press Y for 'Yes' and N for 'No':";
         public const string EXIT_MESSAGE = "Do you want to exit?";
         public const string NO_MORE_QUESTIONS_MESSAGE = "No more questions.";
