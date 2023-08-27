@@ -8,7 +8,7 @@
         /// <returns>A string representing the user's question.</returns>
         public static string TakeUserQuestion()
         {
-            string question = "";
+            string question = string.Empty;
 
             // Keep looping until a non-empty question is received
             while (string.IsNullOrEmpty(question))
