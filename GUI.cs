@@ -137,7 +137,9 @@
             do
             {
                 // Take a question from the user
-                Question question = new Question(GUI.TakeUserQuestion(), GUI.TakeUserAnswers());
+                Question question = new Question();
+                question.QuestionString = GUI.TakeUserQuestion();
+                question.Answers = GUI.TakeUserAnswers();
 
                 // Add the question to the list
                 questions.Add(question);
