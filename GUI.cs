@@ -51,6 +51,37 @@
         }
 
         /// <summary>
+        /// Takes the user's answer from the console and ensures that it is a valid integer within the specified range (min to max).
+        /// </summary>
+        /// <returns>An integer representing the valid user answer.</returns>
+        public static int TakeUserInput(int min, int max)
+        {
+            Console.WriteLine($"Please choose an answer ({min} to {max}):  ");
+
+            // Keep looping until a valid input is received
+            while (true)
+            {
+                string userAnswerString = Console.ReadLine();
+
+                // Attempt to parse the input string to an integer
+                if (!int.TryParse(userAnswerString, out int userAnswerInt))
+                {
+                    Console.WriteLine("Please enter a number that corresponds to your displayed options: ");
+                    continue;
+                }
+
+                // If the parsed integer is within the specified range, return it
+                if (userAnswerInt >= min && userAnswerInt <= max)
+                {
+                    return userAnswerInt;
+                }
+
+                // Otherwise, notify the user that the input was out of range
+                Console.WriteLine($"Please enter a number from {min} to {max}");
+            }
+        }
+
+        /// <summary>
         /// Prompts the user to enter a name for a file and retrieves the input as a string.
         /// </summary>
         /// <returns>A string representing the name entered by the user for the file.</returns>
@@ -71,16 +102,17 @@
         public static string[] TakeUserAnswers()
         {
             string[] answers;
-
+            Console.WriteLine("How many answers you want for this question? (3-5)");
+            int numberOfAnswers = TakeUserInput(Constants.MIN_ANSWERS_PER_QUESTION, Constants.MAX_ANSWERS_PER_QUESTION);
             // Initialize the array to store the specified number of answers
-            answers = new string[Constants.MAX_ANSWERS_PER_QUESTION];
+            answers = new string[numberOfAnswers];
             int index = 0;
 
             // Notify the user about the required number of answers
-            Console.WriteLine($"Please enter {Constants.MAX_ANSWERS_PER_QUESTION} answers for this question: ");
+            Console.WriteLine($"Please enter {numberOfAnswers} answers for this question: ");
 
             // Loop to collect all the answers from the user
-            while (index < Constants.MAX_ANSWERS_PER_QUESTION)
+            while (index < numberOfAnswers)
             {
                 string answer = Console.ReadLine();
 
@@ -105,7 +137,7 @@
             while (finish)
             {
                 Console.WriteLine("Please select the answer(s) to be marked as right answer(s): ");
-                int correctAnswer = TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
+                int correctAnswer = TakeUserInput(numberOfAnswers);
 
                 // Check if the selected answer has already been marked as correct
                 if (answers[correctAnswer - 1].Contains(Constants.CORRECT_ANSWER_MARKER))
