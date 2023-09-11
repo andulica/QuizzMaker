@@ -2,7 +2,7 @@
 
 namespace QuizMakerProgram
 {
-    internal class Quiz
+    internal class XMLFileOperations
     {
         /// <summary>
         /// Serializes a list of questions into an XML file with the specified file name.

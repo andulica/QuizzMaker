@@ -259,7 +259,7 @@
                 Console.WriteLine("No files found in the directory. Please create a new file and add questions.");
 
                 // Serialize a new quiz file with the user-defined name and generated questions
-                Quiz.Serialize(TakeQuestionsForQuiz());
+                XMLFileOperations.Serialize(TakeQuestionsForQuiz());
             }
 
             Console.WriteLine("Files available:");
@@ -318,7 +318,7 @@
                     {
                         Console.Clear();
                         // Deserialize the questions from the file and return them
-                        return Quiz.Deserialize(filePath);
+                        return XMLFileOperations.Deserialize(filePath);
                     }
                     else
                     {
@@ -356,7 +356,7 @@
                     {
                         Console.Clear();
                         // Deserialize the questions from the file and return them along with the file path
-                        return (filePath, Quiz.Deserialize(filePath));
+                        return (filePath, XMLFileOperations.Deserialize(filePath));
                     }
                     else
                     {

@@ -26,7 +26,7 @@ namespace QuizMakerProgram
         public static void CreateQuiz()
         {
             // Generate questions for the game using QuizLogic and serialize them to an XML file using Quiz.Serialization
-            Quiz.Serialize(GUI.TakeQuestionsForQuiz());
+            XMLFileOperations.Serialize(GUI.TakeQuestionsForQuiz());
             GUI.DisplayReturnToMainMenu(string.Empty);
         }
 
@@ -48,7 +48,7 @@ namespace QuizMakerProgram
             List<Question> questionsEdited = GUI.EditQuestionsList(result.Questions);
 
             // Save the edited questions back to the original XML file
-            Quiz.ReplaceListOfQuestions(result.FilePath, questionsEdited);
+            XMLFileOperations.ReplaceListOfQuestions(result.FilePath, questionsEdited);
 
             GUI.DisplayReturnToMainMenu(string.Empty);
         }
