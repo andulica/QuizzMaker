@@ -4,6 +4,8 @@ namespace ConsoleApp1
 {
     public class Program
     {
+
+        private static List<Question> questionsToPlay;
         static void Main(string[] args)
         {
             GUI.DisplayWelcomeMessage();
@@ -15,7 +17,8 @@ namespace ConsoleApp1
                 switch (userChosenOption)
                 {
                     case GameModes.Play:
-                        QuizEditor.SelectQuizToPlay();
+                        questionsToPlay = QuizEditor.SelectQuizToPlay();
+                        PlayQuestionsFromFile();
                         break;
                     case GameModes.Create:
                         QuizEditor.CreateQuiz();
@@ -45,7 +48,7 @@ namespace ConsoleApp1
         /// The quiz will repeat if the user decides to play again.
         /// </summary>
         /// <param name="questionsToPlay">A list of questions that will be used in the quiz.</param>
-        internal static void PlayQuestionsFromFile(List<Question> questionsToPlay)
+        internal static void PlayQuestionsFromFile()
         {
             // Flag to determine if the user wants to repeat the quiz
             bool repeat = true;

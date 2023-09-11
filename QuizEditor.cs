@@ -8,16 +8,16 @@ namespace QuizMakerProgram
         /// <summary>
         /// Selects a quiz from available XML files and starts the game.
         /// </summary>
-        public static void SelectQuizToPlay()
+        public static List<Question> SelectQuizToPlay()
         {
             // Display available XML files (quizzes) to the user
             GUI.DisplayAllXmlFiles(Constants.BASE_PATH);
 
             // Deserialize selected XML file into a list of questions
-            List<Question> questionsToPlay = GUI.SelectXmlFile(Constants.BASE_PATH);
+             List<Question> questionsToPlay = GUI.SelectXmlFile(Constants.BASE_PATH);
 
-            // Play the selected quiz and display the result (e.g., user's score)
-            Program.PlayQuestionsFromFile(questionsToPlay);
+            return questionsToPlay;
+            
         }
 
         /// <summary>
