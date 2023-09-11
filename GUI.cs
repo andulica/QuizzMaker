@@ -333,39 +333,40 @@
         }
 
         /// <summary>
-        /// Prompts the user to select an XML file by name, ensuring that the selected file exists and is not empty.
+        /// Prompts the user to select an XML file by name, ensuring that the chosen file exists and is not empty.
         /// </summary>
         /// <param name="basePath">The directory path where the XML files are located.</param>
-        /// <returns>A tuple containing the full file path and the deserialized list of questions from the selected XML file.</returns>
-        public static (string FilePath, List<Question> Questions) SelectXmlFileAndFilePath(string basePath)
+        /// <returns>The full file path of the selected XML file.</returns>
+        public static string SelectXmlFileAndFilePath(string basePath)
         {
             string nameForGame;
 
-            // Loop indefinitely until a valid, non-empty XML file is selected
+            // Continuously prompt the user until a valid, non-empty XML file is selected
             while (true)
             {
                 nameForGame = TakeNameForFileFromUser();
 
-                // Combine the base path and user-provided name to form the full file path
+                // Construct the full file path by combining the base directory path and the user-provided file name
                 string filePath = Path.Combine(basePath, nameForGame + ".xml");
 
+                // Check if the constructed file path corresponds to an existing file
                 if (File.Exists(filePath))
                 {
-                    // Check if the file is not empty (contains at least 1 question)
+                    // Verify that the file is not empty (i.e., it contains data)
                     if (new FileInfo(filePath).Length > 0)
                     {
                         Console.Clear();
-                        // Deserialize the questions from the file and return them along with the file path
-                        return (filePath, XMLFileOperations.Deserialize(filePath));
+                        // Once a valid file has been selected, return its full path
+                        return filePath;
                     }
                     else
                     {
-                        Console.WriteLine("The file is empty. Please choose another file.");
+                        Console.WriteLine("The selected file is empty. Please choose a different file.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("This file does not exist. Please try again.");
+                    Console.WriteLine("The specified file does not exist. Please enter a valid file name.");
                 }
             }
         }
@@ -621,10 +622,10 @@
         /// The user is prompted for confirmation before deletion.
         /// </summary>
         /// <param name="result">A tuple containing the file path of the quiz to be deleted and the list of questions associated with it.</param>
-        public static void DeleteQuiz((string FilePath, List<Question> Questions) result)
+        public static void DeleteQuiz(string filePath)
         {
             // Prompt the user to confirm if they really want to delete the specified file
-            Console.WriteLine($"Are you sure that you want to delete {result.FilePath} ?");
+            Console.WriteLine($"Are you sure that you want to delete {filePath} ?");
             // Call the GetYesNo method with the DELETE_MESSAGE constant to get the user's confirmation
             bool delete = GetYesNo(Constants.DELETE_MESSAGE);
 
@@ -632,7 +633,7 @@
             if (delete)
             {
                 // Delete the specified file
-                File.Delete(result.FilePath);
+                File.Delete(filePath);
                 // Notify the user of the successful deletion
                 DisplayReturnToMainMenu(Constants.FILES_DELETED_MESSAGE);
             }

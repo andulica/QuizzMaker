@@ -4,7 +4,6 @@ namespace ConsoleApp1
 {
     public class Program
     {
-
         private static List<Question> questionsToPlay;
         static void Main(string[] args)
         {

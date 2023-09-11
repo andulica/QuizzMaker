@@ -39,34 +39,38 @@ namespace QuizMakerProgram
             GUI.DisplayAllXmlFiles(Constants.BASE_PATH);
 
             // Allow the user to select an XML file and deserialize it into a list of questions, also retrieving the file path
-            var result = GUI.SelectXmlFileAndFilePath(Constants.BASE_PATH);
+            string filePath = GUI.SelectXmlFileAndFilePath(Constants.BASE_PATH);
+            var result = XMLFileOperations.Deserialize(filePath);
 
             // Display the existing questions to the user
-            GUI.DisplayQuestions(result.Questions);
+            GUI.DisplayQuestions(result);
 
             // Allow the user to edit the questions
-            List<Question> questionsEdited = GUI.EditQuestionsList(result.Questions);
+            List<Question> questionsEdited = GUI.EditQuestionsList(result);
 
             // Save the edited questions back to the original XML file
-            XMLFileOperations.ReplaceListOfQuestions(result.FilePath, questionsEdited);
+            XMLFileOperations.ReplaceListOfQuestions(filePath, questionsEdited);
 
             GUI.DisplayReturnToMainMenu(string.Empty);
         }
 
         /// <summary>
-        /// Handles the deletion process of a quiz. This includes displaying all XML files, allowing the user to select a file,
-        /// and then invoking the GUI's DeleteQuiz method to actually delete the file.
+        /// Facilitates the deletion of a quiz. It displays the list of available XML quiz files,
+        /// prompts the user to select one, and then deletes the selected file.
         /// </summary>
         public static void DeleteQuiz()
         {
-            // Display all XML files in the specified base path
+            // Display the list of available XML quiz files for the user
             GUI.DisplayAllXmlFiles(Constants.BASE_PATH);
 
-            // Allow the user to select an XML file and get its path from the specified base path
-            var result = GUI.SelectXmlFileAndFilePath(Constants.BASE_PATH);
+            // Prompt the user to select an XML file and retrieve its full path
+            string filePath = GUI.SelectXmlFileAndFilePath(Constants.BASE_PATH);
 
-            // Pass the selected file and path to the GUI's DeleteQuiz method to handle the deletion
-            GUI.DeleteQuiz(result);
+            // Deserialize the selected XML file (if further operations or checks are needed on the deserialized data in future implementations)
+            var result = XMLFileOperations.Deserialize(filePath);
+
+            // Delete the selected XML file
+            GUI.DeleteQuiz(filePath);
         }
     }
 }
