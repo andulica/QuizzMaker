@@ -11,7 +11,7 @@ namespace ConsoleApp1
             do
             {
                 GUI.DisplayMenu();
-                userChosenOption = (GameModes)GUI.TakeUserInput((int)GameModes.Exit);
+                userChosenOption = (GameModes)GUI.GetUserChoiceIndex((int)GameModes.Exit);
                 switch (userChosenOption)
                 {
                     case GameModes.Play:
@@ -77,18 +77,18 @@ namespace ConsoleApp1
                     // Loop to collect and evaluate user's answers for questions with multiple correct answers
                     for (int j = 0; j < correctAnswers; j++)
                     {
-                        int answer;
+                        int option;
                         // Make sure the user doesn't select an answer they've already chosen
                         do
                         {
-                            answer = GUI.TakeUserInput(Constants.MAX_ANSWERS_PER_QUESTION);
-                        } while (selectedAnswers.Contains(answer));
+                            option = GUI.GetUserChoiceIndex(Constants.MAX_ANSWERS_PER_QUESTION);
+                        } while (selectedAnswers.Contains(option));
 
                         // Add the selected answer to the HashSet
-                        selectedAnswers.Add(answer);
+                        selectedAnswers.Add(option);
 
                         // Evaluate if the selected answer is correct
-                        bool isCorrect = QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, answer);
+                        bool isCorrect = QuizLogic.EvaluatePlayerAnswer(shuffledListOfQuestions[i].Answers, option);
 
                         // If the answer is incorrect, notify the user and break the loop
                         if (!isCorrect)

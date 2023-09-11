@@ -23,7 +23,7 @@
         /// Takes the user's answer from the console and ensures that it is a valid integer within the specified range (1 to max).
         /// </summary>
         /// <returns>An integer representing the valid user answer.</returns>
-        public static int TakeUserInput(int max)
+        public static int GetUserChoiceIndex(int max)
         {
             Console.WriteLine($"Please choose an answer (1 to {max}):  ");
 
@@ -54,7 +54,7 @@
         /// Takes the user's answer from the console and ensures that it is a valid integer within the specified range (min to max).
         /// </summary>
         /// <returns>An integer representing the valid user answer.</returns>
-        public static int TakeUserInput(int min, int max)
+        public static int GetUserChoiceIndex(int min, int max)
         {
             Console.WriteLine($"Please choose an answer ({min} to {max}):  ");
 
@@ -103,7 +103,7 @@
         {
             string[] answers;
             Console.WriteLine("How many answers you want for this question? (3-5)");
-            int numberOfAnswers = TakeUserInput(Constants.MIN_ANSWERS_PER_QUESTION, Constants.MAX_ANSWERS_PER_QUESTION);
+            int numberOfAnswers = GetUserChoiceIndex(Constants.MIN_ANSWERS_PER_QUESTION, Constants.MAX_ANSWERS_PER_QUESTION);
             // Initialize the array to store the specified number of answers
             answers = new string[numberOfAnswers];
             int index = 0;
@@ -137,7 +137,7 @@
             while (finish)
             {
                 Console.WriteLine("Please select the answer(s) to be marked as right answer(s): ");
-                int correctAnswer = TakeUserInput(numberOfAnswers);
+                int correctAnswer = GetUserChoiceIndex(numberOfAnswers);
 
                 // Check if the selected answer has already been marked as correct
                 if (answers[correctAnswer - 1].Contains(Constants.CORRECT_ANSWER_MARKER))
@@ -469,7 +469,7 @@
         private static Question EditQuestion(Question questionToEdit)
         {
             Console.WriteLine("Choose one of the following options: \n1. Edit question's sentence. \n2. Edit question's answers.");
-            int userInput = TakeUserInput(2);
+            int userInput = GetUserChoiceIndex(2);
             bool exit;
 
             // Keep looping until the user decides to exit
@@ -534,7 +534,7 @@
                 DisplayAnswers(question.Answers);
 
                 // Take user input to select an answer to edit
-                int userSelectedAnswer = TakeUserInput(question.Answers.Length);
+                int userSelectedAnswer = GetUserChoiceIndex(question.Answers.Length);
 
                 // Edit the selected answer (implementation details in the EditQuestionAnswer method)
                 question.Answers[userSelectedAnswer] = EditQuestionAnswer();
