@@ -491,7 +491,7 @@
                 }
 
                 // Ask the user if they want to continue editing or exit
-                exit = GetYesNo(Constants.EXIT_MESSAGE);
+                exit = GetYesNo($"Do you want to exit ? {Constants.CHOICE_YES}/{Constants.CHOICE_NO}");
             }
             while (!exit);
 
@@ -524,8 +524,6 @@
         /// <returns>The array of edited answers.</returns>
         private static string[] EditQuestionAnswers(Question question)
         {
-            string repeatMessage = "Do you want to edit more answers? ";
-
             // Prompt the user if they want to continue editing answers
             bool continueEditAnswers;
 
@@ -541,7 +539,7 @@
                 question.Answers[userSelectedAnswer] = EditQuestionAnswer();
 
                 // Check again if the user wants to continue editing answers
-                continueEditAnswers = GetYesNo(repeatMessage);
+                continueEditAnswers = GetYesNo($"Do you want to edit more answers? {Constants.CHOICE_YES}/{Constants.CHOICE_NO}");
             }
             while (continueEditAnswers);
 
